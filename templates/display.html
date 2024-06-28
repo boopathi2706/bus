@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='display.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="input-field">
+            <label for="From_point">From point:</label>
+            <select id="From_point" name="From point">
+                <option value="">options...</option>
+                <option value="Pollachi">Pollachi</option>
+                <option value="Kinathukadavu">Kinathukadavu</option>
+                <option value="Ukkadam">Ukkadam</option>
+                <option value="Gandhipuram">Gandhipuram</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <label for="To_point">To point:</label>
+            <select id="To_point" name="To point">
+                <option value="">options...</option>
+                <option value="Erode">Erode</option>
+                <option value="Salem">Salem</option>
+                <option value="Kallakurichi">Kallakurichi</option>
+                <option value="Vilupuram">Vilupuram</option>
+            </select>
+        </div>
+        <button onclick="display()">Show My Bus</button>
+    </div>
+    <div id="price-list" class="page">
+        <div class="vegetable-container">
+            <center><h2 class="bus-title">BOOPATHI BUS TRAVELS</h2></center>
+            <h4 id="demo1"></h4>
+            <h4 id="demo"></h4>
+            <img id="vegetable-image" class="vegetable-image" src="{{ url_for('static', filename='coach-white.jpg!sw800') }}" alt="Bus Image">
+            <center><button id="displaybutton" onclick="submitBooking()">BUS BOOKING..</button></center>
+        </div>
+    </div>
+
+    <script>
+        var count = 1; // Initialize count variable
+
+        function display() {
+            var Topoint = document.getElementById("To_point").value.toLowerCase();
+            var Frompoint = document.getElementById("From_point").value.toLowerCase();
+            if (count == 1) {
+                switch (Topoint) {
+                    case "erode":
+                        document.getElementById('demo1').innerHTML = "FROM: " + Frompoint.toUpperCase();
+                        document.getElementById('demo').innerHTML = "TO: " + Topoint.toUpperCase();
+                        break;
+                    case "salem":
+                        document.getElementById('demo1').innerHTML = "FROM: " + Frompoint.toUpperCase();
+                        document.getElementById('demo').innerHTML = "TO: " + Topoint.toUpperCase();
+                        break;
+                    case "kallakurichi":
+                        document.getElementById('demo1').innerHTML = "FROM: " + Frompoint.toUpperCase();
+                        document.getElementById('demo').innerHTML = "TO: " + Topoint.toUpperCase();
+                        break;
+                    case "vilupuram":
+                        document.getElementById('demo1').innerHTML = "FROM: " + Frompoint.toUpperCase();
+                        document.getElementById('demo').innerHTML = "TO: " + Topoint.toUpperCase();
+                        break;
+                    default:
+                        alert("To point not found!");
+                }
+                document.getElementById("price-list").style.display = "block"; // Show the price list div
+            }
+            count++; // Increment count
+        }
+
+        function submitBooking() {
+            var fromPoint = document.getElementById("From_point").value.trim();
+            var toPoint = document.getElementById("To_point").value.trim();
+            var user_details = JSON.parse(localStorage.getItem("user_details")); // Retrieve stored user details
+
+            if (!user_details) {
+                alert("User details not found!");
+                return;
+            }
+
+            user_details.From_point = fromPoint;
+            user_details.To_point = toPoint;
+
+            // Save updated user details back to localStorage
+            localStorage.setItem("user_details", JSON.stringify(user_details));
+
+            // Redirect to booking confirmation page
+            window.location.href = "bus_details.html";
+        }
+    </script>
+</body>
+</html>

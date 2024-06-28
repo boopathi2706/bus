@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='sign-up.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="signup-form" action="{{ url_for('signup') }}" method="post">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="email">Email ID</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+            
+            <button type="submit">Sign Up</button>
+            <h4>Already have an account? <a href="{{ url_for('login') }}">Sign In</a></h4>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').onsubmit = function(event) {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirm-password").value;
+
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters!");
+                event.preventDefault();
+                return false;
+            }
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        };
+    </script>
+</body>
+</html>

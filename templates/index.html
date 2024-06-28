@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{{ url_for('static', filename='BOOPATHI-removebg-preview.png') }}">
+  <title>BOOPARHI BUS TRAVEL'S</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+  <!---navbar-->
+  <nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
+    <div class="container-fluid">
+      <img class="nav-img" src="{{ url_for('static', filename='BOOPATHI-removebg-preview.png') }}" style="width: 50px;height: 50px;">
+      <a class="navbar-brand" href="#">BOOPATHI TRAVEL'S</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#Home">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#booking">BOOKING</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#mybooking">MY TICKETS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#Contact">CONTACT</a>
+          </li>
+        </ul>
+        <button class="btn p-2 my-lg-0 my-4 spacing" id="logoutButton">Log Out</button>
+      </div>
+    </div>
+  </nav>
+  <!---Home-->
+  <section id="Home">
+    <div class="container text-center py-5">
+      <h1 class="display-4">BOOPATHI BUS TRAVEL'S</h1>
+      <p class="lead">CHEAP & BEST TRAVEL'S SERVICE AND HAPPY JOURNEY</p>
+    </div>
+  </section>
+  <!---About-->
+  <section id="booking">
+    <div class="container-fluid py-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-6 col-12">
+          <img id="photo" src="{{ url_for('static', filename='back-image2.webp') }}" class="img-fluid">
+          <a href="{{ url_for('booking') }}" class="btn signin booking_button">BOOKING</a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12 p-lg-5 p-2 my-5">
+          <h2>ABOUT US</h2>
+          <p>Organic foods are grown without artificial pesticides, fertilizers, or herbicides. Organic meat, eggs, and dairy products are obtained from animals that are fed natural feed and not given hormones or antibiotics. Natural foods are free of synthetic or artificial ingredients or additives. Pure does not mean Organic. By law Organic products must be certified by the USDA. Only 100% Certified Organic products can bear the USDA Organic Seal on the Label. To be CERTIFIED all ingredients must meet or GO ABOVE & BEYOND the USDA's STRICT STANDARDS. All Aloha Organic Fruit is 100% certified organic: peaches, apricots, nectarines, cherries, plums, pears and apples. You can enjoy safe, delicious organic fruit year-round with our jams and fruit in a jar. Products labeled as “100% organic” must contain only organically produced ingredients and processing aids, excluding water and salt. No other ingredients or additives are permitted. Products labeled “organic” must contain at least 95% organically produced ingredients (excluding water and salt).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!---Contact-->
+  <section id="Contact">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-12">
+          <img src="{{ url_for('static', filename='coach-white.jpg!sw800') }}" class="img-fluid">
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <h2>CONTACT US</h2>
+          <form method="POST" action="{{ url_for('contact') }}">
+            <div class="mb-3">
+              <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="mb-3">
+              <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+            </div>
+            <div class="mb-3">
+              <textarea class="form-control" name="message" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" class="btn signin">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!---Footer-->
+  <footer class="py-3 text-center bg-dark text-white">
+    Boopathi Bus Travel's
+  </footer>
+
+  <!-- Bootstrap JS and custom scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+  <!-- Logout functionality -->
+  <script>
+    const logoutUrl = "{{ url_for('logout') }}";
+
+    document.getElementById('logoutButton').addEventListener('click', function() {
+        fetch(logoutUrl, { method: 'POST' })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            });
+    });
+</script>
+
+</body>
+</html>

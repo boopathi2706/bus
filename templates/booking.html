@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Booking Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='booking.css') }}">
+</head>
+<body>
+    <div class="booking-page" id="Booking">
+        <center><h1 id="title">User Details</h1></center>
+        <form id="booking-form" action="{{ url_for('submit_booking') }}" method="post">
+            <div class="input-field">
+                <label for="Name">User Name:</label>
+                <input type="text" id="Name" name="Name" required>
+            </div>
+
+            <div class="input-field">
+                <label for="Email">Email:</label>
+                <input type="email" id="Email" name="Email" required>
+            </div>
+
+            <div class="input-field">
+                <label for="PhoneNumber">Phone Number:</label>
+                <input type="text" id="PhoneNumber" name="PhoneNumber" required>
+            </div>
+
+            <div class="input-field">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+
+            <div class="input-field">
+                <label for="Date_Of_Birth">Date of Birth:</label>
+                <input type="date" id="Date_Of_Birth" name="Date_Of_Birth">
+            </div>
+
+            <div class="input-field">
+                <label for="Address">Address:</label>
+                <textarea id="Address" name="Address" rows="3" required></textarea>
+            </div>
+
+            <div class="input-field">
+                <label for="patient">Are you a patient? (Yes or No):</label>
+                <select id="patient" name="patient" required>
+                    <option value="">Select...</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function isValidEmail(email) {
+            // Simple email validation regex
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        function booking() {
+            var Name = document.getElementById("Name").value.trim();
+            var Email = document.getElementById("Email").value.trim();
+            var PhoneNumber = document.getElementById("Phone-number").value.trim();
+            var age = parseInt(document.getElementById("age").value.trim(), 10);
+            var dateOfBirth = new Date(document.getElementById("DOB").value.trim());
+            var address = document.getElementById("Address").value.trim();
+            var question = document.getElementById("patient").value.trim();
+            // var bookingDate = new Date(document.getElementById("BookingDate").value.trim());
+            var currentDate = new Date();
+
+            if (!Name || !Email || !PhoneNumber || !age || !dateOfBirth || !address || !question) {
+                alert('Please fill in all the fields.');
+                return; 
+            }
+
+            if (!isValidEmail(Email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (PhoneNumber.length !== 10 || isNaN(PhoneNumber)) {
+                alert('Phone number must be 10 digits.');
+                return;
+            }
+
+            if (age <= 5 || age >= 60 || isNaN(age)) {
+                alert('Age must be greater than 5 and less than 60.');
+                return; 
+            }
+
+            if (dateOfBirth >= currentDate) {
+                alert('Date of birth must be before the current date.');
+                return; 
+            }
+
+            // if (bookingDate <= currentDate) {
+            //     alert('Booking date must be a future date.');
+            //     return; 
+            // }
+
+            alert("Details entered successfully! Redirecting to bus details page.");
+            
+            // Redirect to display.html after validation
+            window.location.href = "display.html";
+            
+        }
+    </script>
+</body>
+</html>
