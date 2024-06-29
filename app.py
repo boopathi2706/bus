@@ -185,7 +185,15 @@ def make_payment():
     from_point = request.form.get('from_point')
     to_point = request.form.get('to_point')
     total_seats = request.form.get('totalSeats')
-    total_price = calculate_total_price(total_seats)  # Implement this function based on your pricing logic
+    facility = request.form.get('facility')
+
+    # Calculate the total price using the amount function
+    total_price_per_seat = amount(from_point, to_point, facility)
+
+    if total_price_per_seat is None:
+        return "Invalid booking details provided."
+
+    total_price = total_price_per_seat * int(total_seats)
 
     return redirect(url_for(
         'final_ticket_details',
@@ -196,10 +204,28 @@ def make_payment():
         total_seats=total_seats,
         total_price=total_price
     ))
-def calculate_total_price(total_seats):
-    price_per_seat = 20  # Example price per seat
-    return int(total_seats) * price_per_seat
 
+@app.route('/final_ticket_details')
+def final_details():
+    # Prepare data to pass to final_details.html if needed
+    return render_template('final_ticket_details.html')
+
+def amount(from_point, to_point, facility):
+    base_fare = 500
+    to_point_fares = [250, 200, 150, 100]
+    facility_fares = [250, 150, 500, 350]
+
+    try:
+        from_point = int(from_point)
+        to_point = int(to_point)
+        facility = int(facility)
+
+        if 1 <= from_point <= 4 and 1 <= to_point <= 4 and 1 <= facility <= 4:
+            return base_fare + to_point_fares[to_point - 1] + facility_fares[facility - 1]
+        else:
+            return None
+    except (ValueError, TypeError):
+        return None
 
 @app.route('/contact', methods=['POST'])
 def contact():

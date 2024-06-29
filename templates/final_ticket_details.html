@@ -87,9 +87,42 @@
     </div>
 
     <script>
+        // Extract data from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingDate = urlParams.get('booking_date');
+        const bookingTime = urlParams.get('booking_time');
+        const fromPoint = urlParams.get('from_point');
+        const toPoint = urlParams.get('to_point');
+        const totalSeats = urlParams.get('total_seats');
+        const totalPrice = urlParams.get('total_price');
+
+        // Function to convert numeric point values to names
+        function pointName(point) {
+            switch (parseInt(point)) {
+                case 1:
+                    return "Pollachi";
+                case 2:
+                    return "Kinathukadavu";
+                case 3:
+                    return "Ukkadam";
+                case 4:
+                    return "Gandhipuram";
+                default:
+                    return "N/A";
+            }
+        }
+
+        // Update ticket details
+        document.getElementById('current_date').textContent = bookingDate || 'N/A';
+        document.getElementById('current_time').textContent = bookingTime || 'N/A';
+        document.getElementById('fromPoint').textContent = pointName(fromPoint);
+        document.getElementById('toPoint').textContent = pointName(toPoint);
+        document.getElementById('total_count_seats').textContent = totalSeats || 'N/A';
+        document.getElementById('total_amount').textContent = `$${totalPrice || 'N/A'}`;
+
         // Proceed to payment
         document.getElementById('paymentButton').addEventListener('click', function() {
-            window.location.href = 'payment.html';
+            window.location.href = 'payment.html'; // Replace with your actual payment page URL
         });
     </script>
 </body>

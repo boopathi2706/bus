@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Booking Details</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bus_details.css') }}">
+</head>
+<body>
     <style>
         .container {
             max-width: 800px;
@@ -68,9 +70,8 @@
             background-color: #0056b3;
         }
     </style>
-</head>
-<body>
     <div class="container">
+        
         <h1>Bus Booking Details</h1>
         
         <!-- Display booked seats dynamically -->
@@ -87,7 +88,7 @@
             </div>
         </div>
 
-        <form action="{{ url_for('make_payment') }}" method="post">
+        <form action="{{ url_for('make_payment') }}" method="post" id="bookingForm">
             <input type="hidden" name="booked_seats" value="{{ booked_seats }}">
             <div class="input-field">
                 <label for="totalSeats">Total Number of Seats:</label>
