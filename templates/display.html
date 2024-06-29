@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="container">
+        <form id="bus-details-form" action="{{ url_for('bus_details') }}" method="post">
         <div class="input-field">
             <label for="From_point">From point:</label>
             <select id="From_point" name="From point">
@@ -29,6 +30,7 @@
             </select>
         </div>
         <button onclick="display()">Show My Bus</button>
+    </form>
     </div>
     <div id="price-list" class="page">
         <div class="vegetable-container">

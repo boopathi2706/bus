@@ -119,9 +119,41 @@ def display_booking():
 
     return render_template('display.html', booked_seats=booked_seats)
 
-@app.route('/bus_details.html')
+@app.route('/bus_details', methods=['GET', 'POST'])
 def bus_details():
+    if request.method == 'POST':
+        user_details = session.get('user_details', {})
+
+        from_point = request.form.get('From_point', '')
+        to_point = request.form.get('To_point', '')
+        totalSeats = request.form.get('totalSeats', 1)
+        travelDate = request.form.get('travelDate', '')
+        facility = request.form.get('facility', '')
+
+        # Update user details with travel information
+        user_details.update({
+            'From_point': from_point,
+            'To_point': to_point,
+            'totalSeats': totalSeats,
+            'travelDate': travelDate,
+            'facility': facility
+        })
+
+        # Insert or update the user details in MongoDB
+        user_details_collection.update_one(
+            {'Email': user_details['Email']},
+            {'$set': user_details},
+            upsert=True
+        )
+
+        return redirect(url_for('show_bus_details'))
+
     return render_template('bus_details.html')
+
+@app.route('/show_bus_details')
+def show_bus_details():
+    booked_seats = []  # This should be fetched from your database if you have seat booking logic
+    return render_template('bus_details.html', booked_seats=booked_seats)
 
 @app.route('/make_payment', methods=['POST'])
 def make_payment():

@@ -5,6 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Booking Details</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bus_details.css') }}">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .seat-container {
+            margin-top: 20px;
+        }
+
+        .seats {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+        }
+
+        .seat {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .booked {
+            background-color: #ff4d4d;
+        }
+
+        .available {
+            background-color: #4dff4d;
+        }
+
+        .input-field {
+            margin: 20px 0;
+        }
+
+        .checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .checkboxes label {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -24,7 +87,7 @@
             </div>
         </div>
 
-        <form action="/make_payment" method="post">
+        <form action="{{ url_for('make_payment') }}" method="post">
             <input type="hidden" name="booked_seats" value="{{ booked_seats }}">
             <div class="input-field">
                 <label for="totalSeats">Total Number of Seats:</label>
