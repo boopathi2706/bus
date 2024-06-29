@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Ticket Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .box {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid #28a745;
+        }
+
+        .box img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .box h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .details {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .details h2 {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .details h2 span {
+            font-weight: normal;
+        }
+
+        #paymentButton {
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #paymentButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>TICKET DETAILS</h1>
+        <img src="{{ url_for('static', filename='coach-white.jpg!sw800') }}" alt="Bus Image">
+        <div class="details">
+            <h2>Booking Date: <span id="current_date">{{ booking_date }}</span></h2>
+            <h2>Booking Time: <span id="current_time">{{ booking_time }}</span></h2>
+            <h2>From: <span id="fromPoint">{{ from_point }}</span></h2>
+            <h2>To: <span id="toPoint">{{ to_point }}</span></h2>
+            <h2>Total Seats: <span id="total_count_seats">{{ total_seats }}</span></h2>
+            <h2>Total Price: <span id="total_amount">${{ total_price }}</span></h2>
+        </div>
+        <button id="paymentButton">Proceed to Payment</button>
+    </div>
+
+    <script>
+        // Proceed to payment
+        document.getElementById('paymentButton').addEventListener('click', function() {
+            window.location.href = 'payment.html';
+        });
+    </script>
+</body>
+</html>

@@ -155,10 +155,51 @@ def show_bus_details():
     booked_seats = []  # This should be fetched from your database if you have seat booking logic
     return render_template('bus_details.html', booked_seats=booked_seats)
 
+
+@app.route('/final_ticket_details')
+def final_ticket_details():
+    booking_date = request.args.get('booking_date')
+    booking_time = request.args.get('booking_time')
+    from_point = request.args.get('from_point')
+    to_point = request.args.get('to_point')
+    total_seats = request.args.get('total_seats')
+    total_price = request.args.get('total_price')
+
+    return render_template(
+        'final_ticket_details.html',
+        booking_date=booking_date,
+        booking_time=booking_time,
+        from_point=from_point,
+        to_point=to_point,
+        total_seats=total_seats,
+        total_price=total_price
+    )
+
+
+
 @app.route('/make_payment', methods=['POST'])
 def make_payment():
-    # Handle payment logic here
-    return render_template('final_page.html')
+    # Get booking details from the form
+    booking_date = datetime.now().strftime('%Y-%m-%d')
+    booking_time = datetime.now().strftime('%H:%M:%S')
+    from_point = request.form.get('from_point')
+    to_point = request.form.get('to_point')
+    total_seats = request.form.get('totalSeats')
+    total_price = calculate_total_price(total_seats)  # Implement this function based on your pricing logic
+
+    return redirect(url_for(
+        'final_ticket_details',
+        booking_date=booking_date,
+        booking_time=booking_time,
+        from_point=from_point,
+        to_point=to_point,
+        total_seats=total_seats,
+        total_price=total_price
+    ))
+def calculate_total_price(total_seats):
+    price_per_seat = 20  # Example price per seat
+    return int(total_seats) * price_per_seat
+
 
 @app.route('/contact', methods=['POST'])
 def contact():
