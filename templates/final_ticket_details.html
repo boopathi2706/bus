@@ -72,19 +72,18 @@
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>TICKET DETAILS</h1>
-        <img src="{{ url_for('static', filename='coach-white.jpg!sw800') }}" alt="Bus Image">
-        <div class="details">
-            <h2>Booking Date: <span id="current_date">{{ booking_date }}</span></h2>
-            <h2>Booking Time: <span id="current_time">{{ booking_time }}</span></h2>
-            <h2>From: <span id="fromPoint">{{ from_point }}</span></h2>
-            <h2>To: <span id="toPoint">{{ to_point }}</span></h2>
-            <h2>Total Seats: <span id="total_count_seats">{{ total_seats }}</span></h2>
-            <h2>Total Price: <span id="total_amount">${{ total_price }}</span></h2>
-        </div>
-        <button id="paymentButton">Proceed to Payment</button>
+<div class="box">
+    <h1>TICKET DETAILS</h1>
+    <img src="{{ url_for('static', filename='coach-white.jpg!sw800') }}" alt="Bus Image">
+    <div class="details">
+        <h2>Travel Date: <span id="travel_date">{{ travel_date }}</span></h2>
+        <h2>Total Seats: <span id="total_seats">{{ total_seats }}</span></h2>
+        <h2>Facility: <span id="facility">{{ facility }}</span></h2>
+        <h2>Selected Seats: <span id="selected_seats">{{ booked_seats }}</span></h2>
+        <h2>Total Price: <span id="total_price">${{ total_price }}</span></h2>
     </div>
+    <button id="paymentButton">Proceed to Payment</button>
+</div>
 
     <script>
         // Extract data from URL parameters

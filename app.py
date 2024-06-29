@@ -174,41 +174,59 @@ def final_ticket_details():
         total_seats=total_seats,
         total_price=total_price
     )
+booked_seats = [5, 12, 15, 25, 30]
 
 
+def index():
+    return render_template('bus_booking_details.html', booked_seats=booked_seats)
 
 @app.route('/make_payment', methods=['POST'])
 def make_payment():
-    # Get booking details from the form
-    booking_date = datetime.now().strftime('%Y-%m-%d')
-    booking_time = datetime.now().strftime('%H:%M:%S')
-    from_point = request.form.get('from_point')
-    to_point = request.form.get('to_point')
-    total_seats = request.form.get('totalSeats')
-    facility = request.form.get('facility')
+    if request.method == 'POST':
+        # Get booking details from the form
+        booked_seats = request.form.getlist('seats')  # Get selected seats
+        total_seats = len(booked_seats)
+        facility = request.form.get('facility')
+        travel_date = request.form.get('travelDate')
 
-    # Calculate the total price using the amount function
-    total_price_per_seat = amount(from_point, to_point, facility)
+        # Validate if all necessary fields are present
+        if not all([total_seats, facility, travel_date]):
+            return "Invalid booking details provided."
 
-    if total_price_per_seat is None:
-        return "Invalid booking details provided."
+        # Calculate the total price using the amount function
+        total_price_per_seat = amount(1, 2, facility)  # Example points (replace with actual logic)
+        if total_price_per_seat is None:
+            return "Invalid booking details provided."
 
-    total_price = total_price_per_seat * int(total_seats)
+        total_price = total_price_per_seat * total_seats
 
-    return redirect(url_for(
-        'final_ticket_details',
-        booking_date=booking_date,
-        booking_time=booking_time,
-        from_point=from_point,
-        to_point=to_point,
-        total_seats=total_seats,
-        total_price=total_price
-    ))
+        # Redirect to final ticket details page with parameters
+        return redirect(url_for('final_details',
+                                booked_seats=','.join(booked_seats),
+                                total_seats=total_seats,
+                                facility=facility,
+                                travel_date=travel_date,
+                                total_price=total_price))
+
+    else:
+        return "Method not allowed."
 
 @app.route('/final_ticket_details')
 def final_details():
-    # Prepare data to pass to final_details.html if needed
-    return render_template('final_ticket_details.html')
+    # Retrieve parameters from URL query string
+    booked_seats = request.args.get('booked_seats').split(',')
+    total_seats = request.args.get('total_seats')
+    facility = request.args.get('facility')
+    travel_date = request.args.get('travel_date')
+    total_price = request.args.get('total_price')
+
+    # Render final_ticket_details.html with parameters
+    return render_template('final_ticket_details.html',
+                           booked_seats=booked_seats,
+                           total_seats=total_seats,
+                           facility=facility,
+                           travel_date=travel_date,
+                           total_price=total_price)
 
 def amount(from_point, to_point, facility):
     base_fare = 500
@@ -224,8 +242,9 @@ def amount(from_point, to_point, facility):
             return base_fare + to_point_fares[to_point - 1] + facility_fares[facility - 1]
         else:
             return None
-    except (ValueError, TypeError):
+    except (ValueError, TypeError, IndexError):
         return None
+
 
 @app.route('/contact', methods=['POST'])
 def contact():
